@@ -36,7 +36,11 @@ app_license = "MIT"
 
 # Home Pages
 # ----------
-
+doctype_js = {
+    "Lead":"public/js/lead.js",
+    "Customer":"public/js/customer.js",
+    "Opportunity":"public/js/opportunity.js"
+    }
 # application home page (will override Website Settings)
 # home_page = "login"
 
