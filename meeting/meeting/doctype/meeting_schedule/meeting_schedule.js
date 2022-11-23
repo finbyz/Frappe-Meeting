@@ -17,11 +17,11 @@ frappe.ui.form.on('Meeting Schedule', {
 		})
 	},
 
-	onload: function(frm) {
-		if (frm.doc.party) {
-			frm.trigger("get_party_details");
-		}
-	},
+	// onload: function(frm) {
+	// 	if (frm.doc.party) {
+	// 		frm.trigger("get_party_details");
+	// 	}
+	// },
 	scheduled_from(frm) {
 		if (frm.doc.scheduled_from && !frm.doc.scheduled_to){
 		    // frm.set_value('scheduled_to',frm.doc.scheduled_from)
@@ -30,7 +30,7 @@ frappe.ui.form.on('Meeting Schedule', {
 	},
 	validate: function(frm){
 		frm.trigger("set_link_documents");
-		frm.trigger("contact_person_name")
+		// frm.trigger("contact_person_name")
 	},
 
 	contact_person_name: function(frm) {
@@ -57,7 +57,6 @@ frappe.ui.form.on('Meeting Schedule', {
 		frm.set_value('email_id', '');
 		frm.set_value('invitation_message', '');
 	},
-	
 	party: function(frm) {
 		if(frm.doc.party){
 			frm.trigger("get_party_details");

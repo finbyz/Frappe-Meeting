@@ -22,6 +22,19 @@ frappe.ui.form.on("Meeting", "lodging_cost", function(frm) {
 });
 
 frappe.ui.form.on('Meeting', {
+	send_mail: function(frm){
+		if (frm.is_dirty()){
+			frappe.throw("Please Save the Current Document and Then Proceed again")
+		}
+		else{
+			frappe.call({
+				method:"meeting.meeting.doctype.meeting.meeting.send_mail",
+				args:{
+					self : frm.doc
+				},
+			})
+		}
+	},
 	refresh: function(frm) {
 		frm.fields_dict.contact_person.get_query = function(doc) {
 			return {
@@ -107,5 +120,6 @@ frappe.ui.form.on('Meeting', {
 		if ((frappe.meta.get_docfield("Meeting", "total_kms")) && (frappe.meta.get_docfield("Meeting", "rate_per_km"))){
 			frm.set_value('local_travel_expense',flt(frm.doc.total_kms) * flt(frm.doc.rate_per_km))
 		}			
-	}
+	},
+	
 });

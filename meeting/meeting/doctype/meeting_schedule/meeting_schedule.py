@@ -84,22 +84,14 @@ class MeetingSchedule(Document):
 		msgAlternative.attach(ical_atch)
 		msg.attach(msgAlternative)
 
+		# Added to get Parameters which are used in SMTPserver Class
+		from frappe.email.doctype.email_account.email_account import EmailAccount
+		from frappe.utils.password import get_decrypted_password
+		email_account = EmailAccount.find_outgoing(match_by_doctype=None)
+		password = get_decrypted_password(email_account.doctype, email_account.name, "password")
 
-		smtpserver = SMTPServer()
-		smtpserver.setup_email_account(self.doctype, sender=self.email_id)
-		smtpserver.sess.sendmail(default_sender, attendees, msg.as_string())
-		# frappe.sendmail(recipients=self.email_id, subject=subject, cc=self.cc_to,
-		# message=msg,reference_doctype=self.doctype,reference_name=self.name,now=True)
-		# r = make(recipients=self.email_id,
-		# 	subject=subject, 
-		# 	cc = self.cc_to,
-		# 	content=msg.as_string(),
-		# 	sender=frappe.session.user,
-		# 	doctype=self.doctype, 
-		# 	name=self.name,
-		# 	send_email=True)
-		
-		msgprint(_("Mail sent successfully"))
+		smtpserver = SMTPServer(server = email_account.smtp_server, login = email_account.email_id, password = password, service = email_account.service, port=email_account.smtp_port, use_ssl = email_account.use_ssl_for_outgoing, use_tls = email_account.use_tls)
+		smtpserver.session.sendmail(default_sender, attendees, msg.as_string())
 
 		doc = frappe.new_doc("Communication")
 		doc.subject = subject

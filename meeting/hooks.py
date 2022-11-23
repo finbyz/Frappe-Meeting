@@ -154,6 +154,10 @@ doctype_js = {
 #	"Task": "meeting.task.get_dashboard_data"
 # }
 
+override_doctype_dashboards = {
+	"Lead": "meeting.api.lead_get_data"
+}
+
 # exempt linked doctypes from being automatically cancelled
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
@@ -189,3 +193,9 @@ doctype_js = {
 # auth_hooks = [
 #	"meeting.auth.validate"
 # ]
+from erpnext.selling.doctype.customer import customer_dashboard
+from meeting.api import customer_get_data
+customer_dashboard.get_data = customer_get_data
+
+
+
